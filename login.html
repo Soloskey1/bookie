@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<head>
+    <title>Bookie - Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+        /* UPDATED FONT IMPORT: Including Lora (Serif) for testimonials */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background-color: var(--bg-light);
+            color: var(--text-default);
+            line-height: 1.6;
+        }
+
+           /* ======================================= */
+        /* 1. CSS Variables & Global Reset         */
+        /* ======================================= */
+        :root {
+            --primary-color: #4f46e5; /* Indigo-600 */
+            --primary-dark: #4338ca;  /* Indigo-700 */
+            --text-default: #1f2937;  /* Gray-900 (Black/Dark Gray) */
+            --text-secondary: #6b7280; /* Gray-600 */
+            --bg-light: #f7f9fb;
+            --bg-dark: #1f2937; /* Gray-900 for dark sections */
+            --max-width: 1280px;
+            --header-height: 4rem;
+            
+            /* Mobile Menu Specific Mapped Colors */
+            --mobile-text: var(--text-default);
+            --mobile-bg-light: #eef2ff; /* indigo-100 */
+            --mobile-link-hover: var(--primary-color);
+        }
+
+        /* =======================================  */
+        /*  Header Section                         */
+        /* ======================================= */
+        .header {
+            background-color: var(--bg-light);
+            padding: 12px 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--bg-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);;
+        }   
+        
+         .logo {
+            font-size: 1.875rem; /* 30px */
+            font-weight: 800;
+            color: var(--text-default);
+            letter-spacing: -0.025em; /* tracking-tight */
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 0.5rem;
+            color: var(--primary-color);
+            fill: currentColor;
+        }
+
+        .main {
+            max-width: 100vh;
+            margin: 50px auto;
+        }
+
+        /* ======================================= */
+        /* Footer Section                       */
+        /* ======================================= */
+        .footer {
+            background-color: var(--bg-dark);
+            color: #d1d5db; /* gray-300 */
+            
+        }
+
+        .footer-inner {
+            max-width: 80rem; /* max-w-7xl */
+            margin: auto;
+            padding: 4rem 1rem;
+        }
+
+        /* Footer Grid: Default is single column (1fr) */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem; /* gap-8 */
+        }
+
+        .footer-col-logo {
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .footer-col-logo p {
+            font-size: 0.875rem;
+            color: #9ca3af; /* gray-400 */
+            max-width: 20rem;
+        }
+
+        /* Link Columns Container (3 columns inside the main grid) */
+        .footer-links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem; /* space-y-6 */
+        }
+
+        .footer-column {
+            /* Ensures accordion items stack nicely on mobile */
+        }
+
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-title-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            display: block;
+            transform: rotate(0deg);
+            transition: transform 0.3s ease;
+        }
+
+        .footer-title.is-open .footer-title-icon {
+            transform: rotate(180deg);
+        }
+
+        .footer-submenu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem; /* space-y-3 */
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            padding-top: 0;
+            transition: max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out;
+        }
+
+        .footer-submenu[data-open="true"] {
+            max-height: 500px; /* Large enough value */
+            opacity: 1;
+            padding-top: 1rem;
+            transition: max-height 0.4s ease-in, opacity 0.4s ease-in, padding 0.4s ease-in;
+        }
+
+        .footer-link {
+            font-size: 0.875rem;
+            color: #d1d5db; /* gray-300 */
+            text-decoration: none;
+            display: block;
+        }
+
+        .footer-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Separator and Copyright Section */
+        .footer-bottom {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #374151; /* gray-700 */
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-link {
+            color: #9ca3af; /* gray-400 */
+        }
+
+        .social-link:hover {
+            color: var(--primary-color);
+        }
+
+        .copyright {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .copyright p {
+            font-size: 0.875rem;
+        }
+
+        .copyright-tagline {
+            font-size: 0.75rem;
+            color: #6b7280; /* gray-500 */
+            margin-top: 0.25rem;
+        }
+
+
+        /* ======================================= */
+        /* 8. Media Queries (Desktop/Tablet)       */
+        /* ======================================= */
+        @media (min-width: 768px) { /* md breakpoint for multi-column footer and reviews */
+            
+            /* Footer Grid Setup */
+            .footer-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .footer-col-logo {
+                grid-column: span 2 / span 2;
+                margin-bottom: 0;
+            }
+
+            .footer-links-container {
+                grid-column: span 3 / span 3;
+                display: grid; /* Switch to grid layout for links */
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+
+            /* Disable mobile accordion effect on desktop */
+            .footer-title-icon {
+                display: none;
+            }
+
+            .footer-title {
+                cursor: default;
+            }
+
+            .footer-submenu, .footer-submenu[data-open="false"], .footer-submenu[data-open="true"] {
+                max-height: none !important;
+                opacity: 1 !important;
+                padding-top: 0 !important;
+                display: flex; /* Ensure links stack vertically */
+            }
+
+            /* Footer Bottom Layout */
+            .footer-bottom {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .copyright {
+                margin-top: 0;
+                text-align: right;
+            }
+
+            /* Reviews Grid Setup */
+            .reviews-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* ======================================= */
+        /* 9. Utility Overrides (Links/Buttons)    */
+        /* ======================================= */
+        a {
+            text-decoration: none;
+        }
+
+
+       /* Reset and centering the container */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center; /* Horizontal centering */
+    align-items: center;     /* Vertical centering */
+    height: 100vh;           /* Full screen height */
+}
+
+/* The Form Box */
+.auth-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h2 { margin-bottom: 10px; color: #333; }
+p { color: #777; margin-bottom: 30px; }
+
+/* Input Styling */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+/* Button Styling */
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.auth-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.auth-footer {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.auth-footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+   
+        /* Social Login Options */
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border: 2px solid #e1e5ee;
+            border-radius: 10px;
+            background-color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .social-btn i {
+            position: absolute;
+            left: 20px;
+            font-size: 20px;
+        }
+        
+        .facebook-btn {
+            color: #1877F2;
+            border-color: rgba(24, 119, 242, 0.3);
+        }
+        
+        .facebook-btn:hover {
+            background-color: rgba(24, 119, 242, 0.05);
+            border-color: #1877F2;
+        }
+        
+        .linkedin-btn {
+            color: #0077B5;
+            border-color: rgba(0, 119, 181, 0.3);
+        }
+        
+        .linkedin-btn:hover {
+            background-color: rgba(0, 119, 181, 0.05);
+            border-color: #0077B5;
+        }
+        
+        .instagram-btn {
+            color: #E4405F;
+            border-color: rgba(228, 64, 95, 0.3);
+        }
+        
+        .instagram-btn:hover {
+            background-color: rgba(228, 64, 95, 0.05);
+            border-color: #E4405F;
+        }
+    
+</style>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="#home" class="logo">
+                <svg class="logo-icon" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a1 1 0 110 2h-3a1 1 0 01-1-1v-2a1 1 0 00-1-1H9a1 1 0 00-1 1v2a1 1 0 01-1 1H4a1 1 0 
+                    110-2V4zm3 1h2v2H7V5zm3 0h2v2h-2V5z" clip-rule="evenodd" />
+                </svg>
+                Bookie
+            </a>
+        </div>
+    </header>
+ 
+    <main class="main">
+
+        <div class="auth-container">
+            <div class="auth-box">
+                <h2 id="form-title">Welcome Back</h2>
+                <p id="form-subtext">Please enter your login details</p>
+                
+                <form id="auth-form">
+                    <div class="input-group signup-only" style="display: none;">
+                        <label>Username</label>
+                        <input type="text" id="username" placeholder="Choose a username">
+                    </div>
+        
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <!---   Fix later to check for matching password and confirm paswword inputs -->
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+        
+                    <div class="input-group signup-only" style="display: none;">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirm-pass" placeholder="Re-enter password">
+                    </div>
+        
+                    <button type="submit" id="submit-btn" class="auth-btn">Login</button>
+                </form>
+
+                <!-- Social Login Options -->
+                <div class="social-login">
+                    <button class="social-btn facebook-btn" id="facebookBtn">
+                        <i class="fab fa-facebook-f"></i>
+                        Continue with Facebook
+                    </button>
+                    
+                    <button class="social-btn linkedin-btn" id="linkedinBtn">
+                        <i class="fab fa-linkedin-in"></i>
+                        Continue with LinkedIn
+                    </button>
+                    
+                    <button class="social-btn instagram-btn" id="instagramBtn">
+                        <i class="fab fa-instagram"></i>
+                        Continue with Instagram
+                    </button>
+                </div>
+        
+                <div class="auth-footer">
+                    <span id="toggle-text">Don't have an account? <a href="#" id="toggle-link">Sign Up</a></span>
+                </div>
+            </div>
+        </div>
+        
+
+    </main>
+ 
+
+    <!-- Script -->
+      <script>
+       
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // --- Footer Accordion Logic (Mobile Only) ---
+            const footerTitles = document.querySelectorAll('.footer-title');
+            const mdBreakpoint = 768; // Matches CSS media query
+
+            // Helper function to toggle the submenu
+            function toggleFooterSubmenu(submenu, title) {
+                const isOpen = submenu.getAttribute('data-open') === 'true';
+
+                // Temporarily disable transition for immediate height setting when closing
+                submenu.style.transition = 'none';
+
+                if (isOpen) {
+                    // Closing: Measure height, set it, then enable transition and close.
+                    submenu.style.maxHeight = submenu.scrollHeight + 'px'; 
+                    requestAnimationFrame(() => {
+                        // Re-enable transition for closing animation
+                        submenu.style.transition = 'max-height 0.4s ease-out, opacity 0.4s ease-out, padding 0.4s ease-out';
+                        submenu.style.maxHeight = '0';
+                        submenu.style.opacity = '0';
+                        submenu.setAttribute('data-open', 'false');
+                        title.classList.remove('is-open');
+                    });
+                } else {
+                    // Opening: Enable transition, set max height
+                    submenu.style.transition = 'max-height 0.4s ease-in, opacity 0.4s ease-in, padding 0.4s ease-in';
+                    submenu.style.maxHeight = submenu.scrollHeight + 'px';
+                    submenu.style.opacity = '1';
+                    submenu.setAttribute('data-open', 'true');
+                    title.classList.add('is-open');
+                    
+                    // Reset max-height after transition to handle dynamic content (optional)
+                    submenu.addEventListener('transitionend', function handler() {
+                        if (submenu.getAttribute('data-open') === 'true') {
+                            submenu.style.maxHeight = '600px'; // Revert to a large enough value
+                        }
+                        submenu.removeEventListener('transitionend', handler);
+                    });
+                }
+            }
+
+
+            // Set initial state based on screen size
+            if (window.innerWidth >= mdBreakpoint) {
+                document.querySelectorAll('.footer-submenu').forEach(submenu => {
+                    submenu.setAttribute('data-open', 'true');
+                    submenu.previousElementSibling.classList.remove('is-open');
+                });
+            }
+
+            footerTitles.forEach(title => {
+                title.addEventListener('click', () => {
+                    // Only run accordion logic on screens smaller than md (768px)
+                    if (window.innerWidth < mdBreakpoint) {
+                        const targetId = title.getAttribute('data-target');
+                        const submenu = document.getElementById(targetId);
+                        if (submenu) {
+                            toggleFooterSubmenu(submenu, title);
+                        }
+                    }
+                });
+            });
+
+            // Re-apply desktop state on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= mdBreakpoint) {
+                    document.querySelectorAll('.footer-submenu').forEach(submenu => {
+                        submenu.setAttribute('data-open', 'true');
+                        submenu.previousElementSibling.classList.remove('is-open');
+                    });
+                } else {
+                    // On mobile, collapse if the element was open when transitioning from desktop
+                    document.querySelectorAll('.footer-submenu').forEach(submenu => {
+                        if (submenu.getAttribute('data-open') === 'true') {
+                             submenu.style.maxHeight = '600px'; // Reset for proper height calculation if toggled
+                        }
+                    });
+                }
+            });
+
+
+            // --- Subscription Form Submission ---
+            const subscribeForm = document.getElementById('subscribeForm');
+            if (subscribeForm) {
+                subscribeForm.addEventListener('submit', handleSubscription);
+            }
+
+            /**
+             * Handles the subscription form submission (mock submission).
+             */
+            async function handleSubscription(event) {
+                event.preventDefault();
+                
+                const form = document.getElementById('subscribeForm');
+                const button = form.querySelector('.subscribe-button');
+                const message = document.getElementById('subscribeMessage');
+                
+                // Show loading state
+                button.textContent = 'Subscribing...';
+                button.disabled = true;
+                message.textContent = ''; // Clear previous message
+
+                // Helper function for delay
+                const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+                // Mock API call delay
+                await delay(1500);
+
+                // Display success message
+                message.textContent = 'Success! Check your email for your free books. Welcome to the club!';
+                form.reset();
+
+                await delay(1000);
+
+                button.textContent = 'Claim My Free Books!';
+                button.disabled = false;
+
+                await delay(4000);
+
+                message.textContent = '';
+            }
+        });
+
+        // script for hidden inputs in login/sign up section
+        const toggleLink = document.getElementById('toggle-link');
+        const signupFields = document.querySelectorAll('.signup-only');
+        const formTitle = document.getElementById('form-title');
+        const formSubtext = document.getElementById('form-subtext');
+        const submitBtn = document.getElementById('submit-btn');
+        const toggleText = document.getElementById('toggle-text');
+
+        let isSignup = false;
+
+toggleLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    isSignup = !isSignup; // Switch state
+
+    if (isSignup) {
+        // Switch to Sign Up mode
+        signupFields.forEach(field => field.style.display = 'block');
+        formTitle.innerText = "Create Account";
+        formSubtext.innerText = "Join Bookie today to gain acess to unlimited books!";
+        submitBtn.innerText = "Sign Up";
+        toggleText.innerHTML = 'Already have an account? <a href="#" id="toggle-link">Login</a>';
+    } else {
+        // Switch back to Login mode
+        signupFields.forEach(field => field.style.display = 'none');
+        formTitle.innerText = "Welcome Back";
+        formSubtext.innerText = "Please enter your details";
+        submitBtn.innerText = "Login";
+        toggleText.innerHTML = 'Don\'t have an account? <a href="#" id="toggle-link">Sign Up</a>';
+    }
+    
+    // Re-attach listener because we overrode the innerHTML
+    attachToggleListener(); 
+});
+
+// Helper to keep the link working after text change
+function attachToggleListener() {
+    document.getElementById('toggle-link').onclick = () => toggleLink.click();
+}
+    </script>
+</body>
+</html>
